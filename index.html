@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marjorie Ngoupende – Web design UX/UI et accessibilité numérique à Toulon</title>
+  <meta name="description" content="Web designer freelance à Toulon : conception UX/UI, sites WordPress et accessibilité numérique (RGAA) pour des sites simples et inclusifs.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <style>
+    /* ===== Palette basée sur la couleur du logo #004952 (contrastes ≥ 4.5:1 vérifiés) ===== */
+    :root {
+      --fond: #ffffff;
+      --fond-alt: #f5f7f7;
+      --fond-accent: #e6f0f1;
+      --texte: #1b1f22;
+      --texte-doux: #4b5357;
+      --accent: #004952;
+      --accent-fonce: #004952;
+      --accent-texte: #ffffff;
+      --bordure: #cdd5d6;
+      --focus: #b3261e;
+      --pied: #004952;
+      --pied-texte: #ffffff;
+      --pied-lien: #a8e0e6;
+      --pied-filet: #2f6f77;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --fond: #121516;
+        --fond-alt: #1a1e20;
+        --fond-accent: #0f2e32;
+        --texte: #e9eeef;
+        --texte-doux: #b9c3c5;
+        --accent: #7fc8d0;
+        --accent-fonce: #7fc8d0;
+        --accent-texte: #0e1a19;
+        --bordure: #364042;
+        --focus: #ffb4ab;
+        --pied: #00343b;
+        --pied-texte: #e9eeef;
+        --pied-lien: #a8e0e6;
+        --pied-filet: #1f5960;
+      }
+    }
+
+    /* ===== Base ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body {
+      margin: 0;
+      background: var(--fond);
+      color: var(--texte);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 1.125rem;
+      line-height: 1.6;
+    }
+    .conteneur { max-width: 70rem; margin: 0 auto; padding: 0 1rem; }
+    h1, h2, h3 { line-height: 1.25; margin-top: 0; }
+    h2 { font-size: 1.75rem; margin-bottom: 1rem; }
+    h3 { font-size: 1.25rem; margin-bottom: .5rem; }
+    p { margin-top: 0; }
+    a { color: var(--accent); text-underline-offset: .2em; }
+    a:hover { text-decoration-thickness: 2px; }
+    img { max-width: 100%; height: auto; display: block; }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+    /* ===== Liens d'évitement ===== */
+    .evitement { position: absolute; left: 0; top: 0; margin: 0; padding: 0; list-style: none; }
+    .evitement a {
+      position: absolute; left: 1rem; top: -5rem; white-space: nowrap;
+      background: var(--accent); color: var(--accent-texte);
+      padding: .6rem 1rem; border-radius: .3rem; z-index: 10;
+    }
+    .evitement a:focus { top: 1rem; }
+
+    /* ===== En-tête ===== */
+    header { border-bottom: 1px solid var(--bordure); }
+    .entete { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 2rem; padding: 1.25rem 1rem; }
+    .marque { display: flex; align-items: center; gap: .85rem; text-decoration: none; color: var(--texte); }
+    .logo { width: 3.5rem; height: 3.5rem; border-radius: .4rem; flex-shrink: 0; }
+    .marque strong { display: block; font-size: 1.3rem; }
+    .marque-texte span { display: block; font-size: 1rem; color: var(--texte-doux); }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1.5rem; }
+    nav a { display: inline-block; padding: .5rem 0; font-weight: 600; text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+
+    /* ===== Bandeau d'accroche ===== */
+    .accroche { background: var(--fond-accent); padding: 4rem 0; }
+    .accroche h1 { font-size: clamp(2rem, 5.5vw, 3.2rem); max-width: 48rem; margin-bottom: 1.25rem; }
+    .accroche h1 strong { color: var(--accent-fonce); }
+    .accroche p { font-size: 1.25rem; max-width: 44rem; color: var(--texte-doux); }
+    .accroche-grille { display: grid; gap: 2.5rem; align-items: center; grid-template-columns: 1fr; }
+    @media (min-width: 52rem) { .accroche-grille { grid-template-columns: minmax(0, 1fr) 18rem; } }
+    .portrait { margin: 0; max-width: 9rem; order: -1; }
+    @media (min-width: 52rem) { .portrait { max-width: 18rem; order: 0; } }
+    .portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 20%; border-radius: .5rem; border-bottom: 6px solid var(--accent); }
+    .bouton {
+      display: inline-block; margin-top: .5rem;
+      background: var(--accent); color: var(--accent-texte);
+      padding: .85rem 1.5rem; border-radius: .3rem;
+      font-weight: 700; text-decoration: none;
+    }
+    .bouton:hover { text-decoration: underline; }
+    .bouton-secondaire { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+
+    /* ===== Sections ===== */
+    section { padding: 3.5rem 0; }
+    .fond-alt { background: var(--fond-alt); }
+    .intro-section { color: var(--texte-doux); max-width: 44rem; margin-bottom: 1.75rem; }
+
+    /* Deux grands piliers */
+    .piliers { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+    .pilier { border-left: 6px solid var(--accent); padding: .25rem 0 .25rem 1.25rem; }
+    .pilier h2 { margin-bottom: .5rem; }
+    .pilier p { color: var(--texte-doux); margin: 0; }
+
+    /* Grilles de cartes */
+    .grille { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+    .carte { background: var(--fond); border: 1px solid var(--bordure); border-bottom: 4px solid var(--accent); padding: 1.5rem; display: flex; flex-direction: column; }
+    .carte p { color: var(--texte-doux); margin-bottom: 0; }
+    .carte img { margin: -1.5rem -1.5rem 1.25rem; max-width: calc(100% + 3rem); }
+    .carte .meta { font-size: .95rem; margin-top: auto; padding-top: 1rem; color: var(--texte-doux); }
+
+    /* En-tête de section avec lien « voir tout » */
+    .tete-section { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1.5rem; margin-bottom: 1.5rem; }
+    .tete-section h2 { margin: 0; }
+
+    /* Bloc contact */
+    .bloc-contact { background: var(--fond-accent); padding: 2rem; border-radius: .3rem; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); align-items: center; }
+    .bloc-contact h2 { margin-bottom: .5rem; }
+    .bloc-contact p { margin: 0; color: var(--texte-doux); }
+    .reseaux { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
+
+    /* ===== Pied de page ===== */
+    footer { background: var(--pied); color: var(--pied-texte); padding: 3rem 0 2rem; font-size: 1rem; }
+    footer a { color: var(--pied-lien); }
+    footer :focus-visible { outline-color: #ffb4ab; }
+    .pied-haut { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-bottom: 2rem; }
+    footer h2 { font-size: 1.15rem; margin-bottom: .75rem; }
+    footer dl { margin: 0; }
+    footer dt { font-weight: 700; margin-top: .5rem; }
+    footer dd { margin: 0; }
+    .pied-liens { list-style: none; margin: 0; padding: 1.5rem 0 0; border-top: 1px solid var(--pied-filet); display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <ul class="evitement">
+    <li><a href="#contenu">Aller au contenu</a></li>
+    <li><a href="#pied-de-page">Aller au pied de page</a></li>
+  </ul>
+
+  <header>
+    <div class="conteneur entete">
+      <a class="marque" href="#contenu">
+        <img class="logo" src="logo.png" alt="" width="56" height="56">
+        <span class="marque-texte">
+          <strong>Marjorie Ngoupende</strong>
+          <span>Web design et accessibilité numérique</span>
+        </span>
+      </a>
+      <nav aria-label="Menu principal">
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#realisations">Réalisations</a></li>
+          <li><a href="#ressources">Ressources</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu" tabindex="-1">
+
+    <!-- ===== Accroche ===== -->
+    <div class="accroche">
+      <div class="conteneur accroche-grille">
+        <div>
+          <h1>Concevons des sites web <strong>simples</strong> et <strong>accessibles à tous</strong>.</h1>
+          <p>Trop de sites sont encore difficiles à utiliser, en particulier pour les personnes en situation de handicap. J’accompagne les indépendants, associations et structures engagées pour créer des sites clairs, utiles et inclusifs.</p>
+          <a class="bouton" href="#contact">Parlons de votre projet</a>
+        </div>
+        <figure class="portrait">
+          <img src="portrait.jpg" alt="Portrait de Marjorie Ngoupende" width="560" height="700">
+        </figure>
+      </div>
+    </div>
+
+    <!-- ===== Deux piliers ===== -->
+    <section aria-label="Mes deux domaines d’expertise">
+      <div class="conteneur">
+        <ul class="piliers">
+          <li class="pilier">
+            <h2>Le design UX/UI</h2>
+            <p>Rendre votre site <strong>simple</strong> et <strong>agréable</strong> : vos visiteurs trouvent vite ce qu’ils cherchent.</p>
+          </li>
+          <li class="pilier">
+            <h2>L’accessibilité</h2>
+            <p>Rendre votre site utilisable par <strong>tout le monde</strong>, y compris les personnes en situation de handicap, selon le RGAA.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Services ===== -->
+    <section id="services" class="fond-alt" aria-labelledby="titre-services">
+      <div class="conteneur">
+        <h2 id="titre-services">Mes services</h2>
+        <p class="intro-section">Des prestations claires, adaptées à votre budget et à votre niveau d’autonomie.</p>
+        <ul class="grille">
+          <li class="carte">
+            <h3>Création de site WordPress</h3>
+            <p>Un site vitrine accessible, que vous pouvez mettre à jour vous-même.</p>
+          </li>
+          <li class="carte">
+            <h3>Refonte UX/UI</h3>
+            <p>Analyse de votre site actuel, maquettes sur Figma et tests avec de vrais utilisateurs.</p>
+          </li>
+          <li class="carte">
+            <h3>Audit d’accessibilité</h3>
+            <p>Évaluation de votre site selon le RGAA et plan d’action priorisé.</p>
+          </li>
+          <li class="carte">
+            <h3>Documents accessibles</h3>
+            <p>Mise en accessibilité de vos fichiers Word, PDF et PowerPoint.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Réalisations ===== -->
+    <section id="realisations" aria-labelledby="titre-realisations">
+      <div class="conteneur">
+        <div class="tete-section">
+          <h2 id="titre-realisations">Mes réalisations</h2>
+        </div>
+        <ul class="grille">
+          <!-- Pour ajouter une capture d'écran en haut d'une carte :
+               <img src="capture.jpg" alt="Page d’accueil du site …" width="640" height="360"> -->
+          <li class="carte">
+            <h3>Handisport Élite</h3>
+            <p>Association de sensibilisation au handisport. Refonte accessible de son site WordPress de cinq pages : thème léger sans constructeur de pages, bonnes pratiques RGAA et WCAG niveau AA, vérifications au lecteur d’écran NVDA.</p>
+            <p class="meta">Refonte · WordPress · Accessibilité — 2026</p>
+          </li>
+          <li class="carte">
+            <h3>Coeurious</h3>
+            <p>Association. Refonte de l’expérience utilisateur : trois prototypes cliquables sur Figma, un par profil de visiteur, testés à distance par de vrais utilisateurs avant le design final.</p>
+            <p class="meta">UX/UI · Figma · Tests utilisateurs — 2026</p>
+          </li>
+          <li class="carte">
+            <h3>Maître Emily Comyn</h3>
+            <p>Avocate pénale à Toulon. Création de son site professionnel : une page claire et fonctionnelle pour présenter son activité et faciliter la prise de contact.</p>
+            <p class="meta">Site vitrine — 2025</p>
+          </li>
+          <li class="carte">
+            <h3><a href="https://www.gnut06.org">GNUT 06</a></h3>
+            <p>Association basée à Nice. Refonte de son site et mise en place d’un premier niveau d’accessibilité selon les bonnes pratiques RGAA.</p>
+            <p class="meta">Refonte · Accessibilité · Association</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Ressources ===== -->
+    <section id="ressources" class="fond-alt" aria-labelledby="titre-ressources">
+      <div class="conteneur">
+        <div class="tete-section">
+          <h2 id="titre-ressources">Ressources sur l’accessibilité</h2>
+          <a href="[URL de votre chaîne YouTube]">Voir toutes mes vidéos</a>
+        </div>
+        <ul class="grille">
+          <li class="carte">
+            <h3><a href="[URL de la vidéo 1]">[Titre de la vidéo ou de l’infographie 1]</a></h3>
+            <p>[Une phrase qui résume ce qu’on y apprend.]</p>
+            <p class="meta">[jour mois année]</p>
+          </li>
+          <li class="carte">
+            <h3><a href="[URL de la vidéo 2]">[Titre de la vidéo ou de l’infographie 2]</a></h3>
+            <p>[Une phrase qui résume ce qu’on y apprend.]</p>
+            <p class="meta">[jour mois année]</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section id="contact" aria-labelledby="titre-contact">
+      <div class="conteneur">
+        <div class="bloc-contact">
+          <div>
+            <h2 id="titre-contact">Un projet ? Parlons-en.</h2>
+            <p>Basée à Toulon, je travaille avec des clients partout en France. Je vous réponds sous 48 heures.</p>
+          </div>
+          <div>
+            <a class="bouton" href="mailto:[votre-adresse@exemple.fr]">Écrire un e-mail</a>
+            <ul class="reseaux" aria-label="Me suivre sur les réseaux sociaux">
+              <li><a href="[URL LinkedIn]">LinkedIn</a></li>
+              <li><a href="[URL YouTube]">YouTube</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="pied-de-page">
+    <div class="conteneur">
+      <div class="pied-haut">
+        <div>
+          <h2>Marjorie Ngoupende</h2>
+          <p>Web designer freelance spécialisée en UX/UI, WordPress et accessibilité numérique, à Toulon.</p>
+        </div>
+        <div>
+          <h2 id="mentions-legales">Mentions légales</h2>
+          <dl>
+            <dt>Éditrice</dt>
+            <dd>Marjorie Ngoupende, entrepreneuse individuelle (micro-entreprise)</dd>
+            <dt>SIRET</dt>
+            <dd>[Votre numéro SIRET]</dd>
+            <dt>Hébergeur</dt>
+            <dd>[Nom, adresse et téléphone de l’hébergeur]</dd>
+          </dl>
+        </div>
+        <div>
+          <h2 id="accessibilite">Accessibilité</h2>
+          <p>Ce site est [totalement / partiellement] conforme au RGAA 4.1. [Date et résumé de l’audit.]</p>
+          <p>Un problème d’accès ? <a href="mailto:[votre-adresse@exemple.fr]">Signalez-le-moi</a>.</p>
+        </div>
+      </div>
+      <ul class="pied-liens">
+        <li><a href="#accessibilite">Accessibilité : [statut de conformité]</a></li>
+        <li><a href="#mentions-legales">Mentions légales</a></li>
+        <li>Aucun cookie de suivi</li>
+        <li>© 2026 Marjorie Ngoupende</li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>
