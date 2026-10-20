@@ -6,6 +6,10 @@
   <title>Marjorie Ngoupende – Web design UX/UI et accessibilité numérique à Toulon</title>
   <meta name="description" content="Web designer freelance à Toulon : conception UX/UI, sites WordPress et accessibilité numérique (RGAA) pour des sites simples et inclusifs.">
   <link rel="icon" type="image/png" href="logo.png">
+  <script>
+    /* Applique le thème choisi avant l’affichage pour éviter un clignotement */
+    try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
   <style>
     /* ===== Palette basée sur la couleur du logo #004952 (contrastes ≥ 4.5:1 vérifiés) ===== */
     :root {
@@ -23,9 +27,11 @@
       --pied-texte: #ffffff;
       --pied-lien: #a8e0e6;
       --pied-filet: #2f6f77;
+      color-scheme: light;
     }
+    /* Thème sombre : selon le système, sauf si la personne a choisi « clair » */
     @media (prefers-color-scheme: dark) {
-      :root {
+      :root:not([data-theme="light"]) {
         --fond: #121516;
         --fond-alt: #1a1e20;
         --fond-accent: #0f2e32;
@@ -40,7 +46,26 @@
         --pied-texte: #e9eeef;
         --pied-lien: #a8e0e6;
         --pied-filet: #1f5960;
+        color-scheme: dark;
       }
+    }
+    /* Thème sombre choisi manuellement */
+    :root[data-theme="dark"] {
+      --fond: #121516;
+      --fond-alt: #1a1e20;
+      --fond-accent: #0f2e32;
+      --texte: #e9eeef;
+      --texte-doux: #b9c3c5;
+      --accent: #7fc8d0;
+      --accent-fonce: #7fc8d0;
+      --accent-texte: #0e1a19;
+      --bordure: #364042;
+      --focus: #ffb4ab;
+      --pied: #00343b;
+      --pied-texte: #e9eeef;
+      --pied-lien: #a8e0e6;
+      --pied-filet: #1f5960;
+      color-scheme: dark;
     }
 
     /* ===== Base ===== */
@@ -110,13 +135,13 @@
     .intro-section { color: var(--texte-doux); max-width: 44rem; margin-bottom: 1.75rem; }
 
     /* Deux grands piliers */
-    .piliers { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+    .piliers { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr)); }
     .pilier { border-left: 6px solid var(--accent); padding: .25rem 0 .25rem 1.25rem; }
     .pilier h2 { margin-bottom: .5rem; }
     .pilier p { color: var(--texte-doux); margin: 0; }
 
     /* Grilles de cartes */
-    .grille { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+    .grille { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); }
     .carte { background: var(--fond); border: 1px solid var(--bordure); border-bottom: 4px solid var(--accent); padding: 1.5rem; display: flex; flex-direction: column; }
     .carte p { color: var(--texte-doux); margin-bottom: 0; }
     .carte img { margin: -1.5rem -1.5rem 1.25rem; max-width: calc(100% + 3rem); }
@@ -127,7 +152,7 @@
     .tete-section h2 { margin: 0; }
 
     /* Bloc contact */
-    .bloc-contact { background: var(--fond-accent); padding: 2rem; border-radius: .3rem; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); align-items: center; }
+    .bloc-contact { background: var(--fond-accent); padding: 2rem; border-radius: .3rem; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr)); align-items: center; }
     .bloc-contact h2 { margin-bottom: .5rem; }
     .bloc-contact p { margin: 0; color: var(--texte-doux); }
     .reseaux { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
@@ -136,11 +161,42 @@
     footer { background: var(--pied); color: var(--pied-texte); padding: 3rem 0 2rem; font-size: 1rem; }
     footer a { color: var(--pied-lien); }
     footer :focus-visible { outline-color: #ffb4ab; }
-    .pied-haut { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-bottom: 2rem; }
+    .pied-haut { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); margin-bottom: 2rem; }
     footer h2 { font-size: 1.15rem; margin-bottom: .75rem; }
     footer dl { margin: 0; }
     footer dt { font-weight: 700; margin-top: .5rem; }
     footer dd { margin: 0; }
+    footer { color-scheme: dark; }
+    footer h3 { font-size: 1.05rem; margin: 1.25rem 0 .5rem; }
+    footer ul.consignes { margin: 0; padding-left: 1.2rem; }
+    footer ul.consignes li { margin-bottom: .5rem; }
+    footer kbd { font-family: inherit; font-weight: 700; }
+    footer details { margin-top: 1rem; }
+    footer summary { cursor: pointer; font-weight: 700; color: var(--pied-lien); text-decoration: underline; text-underline-offset: .2em; }
+    footer summary:hover { text-decoration-thickness: 2px; }
+    footer details[open] summary { margin-bottom: .5rem; }
+    footer fieldset { border: 0; margin: 0; padding: 0; }
+    footer legend { padding: 0; margin-bottom: .5rem; }
+    .choix-theme { display: flex; align-items: center; gap: .6rem; padding: .3rem 0; cursor: pointer; }
+    .parametres { margin-top: 2rem; }
+    .choix-theme input {
+      appearance: none; -webkit-appearance: none; margin: 0; flex-shrink: 0;
+      width: 1.25rem; height: 1.25rem; border-radius: 50%;
+      border: 2px solid var(--pied-texte); background: transparent; cursor: pointer;
+      display: grid; place-content: center;
+    }
+    .choix-theme input::before { content: ""; width: .6rem; height: .6rem; border-radius: 50%; transform: scale(0); background: var(--pied-lien); }
+    .choix-theme input:checked { border-color: var(--pied-lien); }
+    .choix-theme input:checked::before { transform: scale(1); }
+    @media (forced-colors: active) { .choix-theme input:checked::before { background: CanvasText; } }
+    main:focus, footer:focus { outline: none; }
+
+    /* Mode contraste élevé de Windows : on garde le contour des boutons */
+    @media (forced-colors: active) {
+      .bouton { border: 2px solid ButtonText; }
+      .carte { border-bottom-width: 1px; }
+    }
+
     .pied-liens { list-style: none; margin: 0; padding: 1.5rem 0 0; border-top: 1px solid var(--pied-filet); display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
   </style>
 </head>
@@ -153,7 +209,7 @@
 
   <header>
     <div class="conteneur entete">
-      <a class="marque" href="#contenu">
+      <a class="marque" href="./">
         <img class="logo" src="logo.png" alt="" width="56" height="56">
         <span class="marque-texte">
           <strong>Marjorie Ngoupende</strong>
@@ -305,12 +361,21 @@
 
   </main>
 
-  <footer id="pied-de-page">
+  <footer id="pied-de-page" tabindex="-1">
     <div class="conteneur">
       <div class="pied-haut">
         <div>
           <h2>Marjorie Ngoupende</h2>
           <p>Web designer freelance spécialisée en UX/UI, WordPress et accessibilité numérique, à Toulon.</p>
+          <div id="parametres-affichage" class="parametres" hidden>
+            <h2>Paramètres d’affichage</h2>
+            <fieldset>
+              <legend>Choisissez le thème de la page :</legend>
+              <label class="choix-theme"><input type="radio" name="theme" value="light"> Thème clair</label>
+              <label class="choix-theme"><input type="radio" name="theme" value="dark"> Thème sombre</label>
+              <label class="choix-theme"><input type="radio" name="theme" value="system" checked> Thème du système</label>
+            </fieldset>
+          </div>
         </div>
         <div>
           <h2 id="mentions-legales">Mentions légales</h2>
@@ -320,23 +385,78 @@
             <dt>SIRET</dt>
             <dd>978 489 706 00025</dd>
             <dt>Hébergeur</dt>
-            <dd>[Nom, adresse et téléphone de l’hébergeur]</dd>
+            <dd lang="en">Netlify, Inc.</dd>
+            <dd>101 2nd Street, San Francisco, CA 94105, États-Unis</dd>
+            <dd><a href="mailto:support@netlify.com">support@netlify.com</a></dd>
           </dl>
         </div>
         <div>
           <h2 id="accessibilite">Accessibilité</h2>
           <p>Page conçue et développée dans les normes RGAA</p>
           <p>Un problème d’accès ? <a href="mailto:marjorie.ngoupende@gmail.com">Signalez-le-moi</a>.</p>
+          <details id="adapter-affichage">
+            <summary>Adapter l’affichage avec votre navigateur</summary>
+            <h3>Agrandir la page</h3>
+            <ul class="consignes">
+              <li>Sur ordinateur : <kbd>Ctrl</kbd> et <kbd>+</kbd> (<kbd>Cmd</kbd> et <kbd>+</kbd> sur Mac). <kbd>Ctrl</kbd> et <kbd>0</kbd> pour revenir à la taille normale.</li>
+              <li>Sur téléphone : écartez deux doigts sur l’écran.</li>
+            </ul>
+            <h3>Agrandir seulement le texte</h3>
+            <ul class="consignes">
+              <li>Chrome : Paramètres, puis Apparence, puis Taille de la police.</li>
+              <li>Firefox : Paramètres, puis Général, puis Zoom, et cochez « Zoom texte uniquement ».</li>
+              <li>iPhone : Réglages, puis Accessibilité, puis Affichage et taille du texte.</li>
+              <li>Android : Paramètres, puis Accessibilité, puis Taille de la police.</li>
+            </ul>
+            <h3>Renforcer les contrastes</h3>
+            <ul class="consignes">
+              <li>Windows : Paramètres, puis Accessibilité, puis Thèmes de contraste.</li>
+              <li>Mac : Réglages Système, puis Accessibilité, puis Affichage, et activez « Augmenter le contraste ».</li>
+            </ul>
+            <h3>Écouter la page</h3>
+            <ul class="consignes">
+              <li>Windows : le lecteur d’écran gratuit <a href="https://www.nvaccess.org/download/" lang="en">NVDA</a>.</li>
+              <li>Mac, iPhone et iPad : VoiceOver, intégré dans les réglages d’accessibilité.</li>
+            </ul>
+          </details>
         </div>
       </div>
       <ul class="pied-liens">
         <li><a href="#accessibilite">Accessibilité : premier niveau </a></li>
         <li><a href="#mentions-legales">Mentions légales</a></li>
+        <li id="lien-parametres" hidden><a href="#parametres-affichage">Paramètres d’affichage</a></li>
         <li>Aucun cookie de suivi</li>
         <li>© 2026 Marjorie Ngoupende</li>
       </ul>
     </div>
   </footer>
+
+  <script>
+    /* Paramètres d’affichage : visibles seulement si JavaScript fonctionne */
+    (function () {
+      var racine = document.documentElement;
+      var bloc = document.getElementById('parametres-affichage');
+      var lien = document.getElementById('lien-parametres');
+      var choix = document.querySelectorAll('input[name="theme"]');
+      var actuel = racine.getAttribute('data-theme') || 'system';
+
+      bloc.hidden = false;
+      lien.hidden = false;
+
+      choix.forEach(function (radio) {
+        radio.checked = (radio.value === actuel);
+        radio.addEventListener('change', function () {
+          if (this.value === 'system') {
+            racine.removeAttribute('data-theme');
+            try { localStorage.removeItem('theme'); } catch (e) {}
+          } else {
+            racine.setAttribute('data-theme', this.value);
+            try { localStorage.setItem('theme', this.value); } catch (e) {}
+          }
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>
